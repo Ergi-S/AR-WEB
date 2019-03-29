@@ -18,7 +18,31 @@ public class HttpStaticRequest extends HttpRequest {
 	}
 	
 	public void process(HttpResponse resp) throws Exception {
-	// TO COMPLETE
+		File resfile = new File(m_hs.getFolder()+this.m_ressname);
+		if(!resfile.canRead()) { //Permet de tester si le fichier existe et peut être lu
+			resp.setReplyError(404, "File not found");
+		} else {
+			resp.setReplyOk();
+			resp.setContentLength((int)resfile.length());
+			resp.setContentType(getContentType(this.m_ressname));
+			PrintStream ps = resp.beginBody();
+			FileInputStream fis = new FileInputStream(resfile);
+			int nread = 0;
+			int flength = (int) resfile.length();
+			byte[] payload = new byte[flength];
+			int num = 0;
+			while(nread < flength) { //récupération du payload du fichier
+				num = fis.read(payload,nread,flength-nread);
+				if (num == -1) {
+					break;
+				}
+				nread += num;
+			}
+			ps.write(payload);
+			
+			
+		}
+		
 	}
 
 }
