@@ -19,6 +19,7 @@ public class HttpStaticRequest extends HttpRequest {
 	
 	public void process(HttpResponse resp) throws Exception {
 		File resfile = new File(m_hs.getFolder()+this.m_ressname);
+		System.out.println(this.m_ressname);
 		if(!resfile.canRead()) { //Permet de tester si le fichier existe et peut être lu
 			resp.setReplyError(404, "File not found");
 		} else {
@@ -39,8 +40,6 @@ public class HttpStaticRequest extends HttpRequest {
 				nread += num;
 			}
 			ps.write(payload);
-			
-			
 		}
 		
 	}
